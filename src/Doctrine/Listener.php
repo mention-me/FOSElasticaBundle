@@ -64,12 +64,12 @@ class Listener
      *
      * @var array
      */
-    private $config;
+    protected $config;
 
     /**
      * @var IndexableInterface
      */
-    private $indexable;
+    protected $indexable;
 
     /**
      * Constructor.
@@ -188,7 +188,7 @@ class Listener
      *
      * @return bool
      */
-    private function shouldPersist()
+    protected function shouldPersist()
     {
         return !$this->config['defer'];
     }
@@ -197,7 +197,7 @@ class Listener
      * Persist scheduled objects to ElasticSearch
      * After persisting, clear the scheduled queue to prevent multiple data updates when using multiple flush calls.
      */
-    private function persistScheduled()
+    protected function persistScheduled()
     {
         if ($this->shouldPersist()) {
             if (count($this->scheduledForInsertion)) {
@@ -220,7 +220,7 @@ class Listener
      *
      * @param object $object
      */
-    private function scheduleForDeletion($object)
+    protected function scheduleForDeletion($object)
     {
         if ($identifierValue = $this->propertyAccessor->getValue($object, $this->config['identifier'])) {
             $this->scheduledForDeletion[] = !is_scalar($identifierValue) ? (string) $identifierValue : $identifierValue;
@@ -234,7 +234,7 @@ class Listener
      *
      * @return bool
      */
-    private function isObjectIndexable($object)
+    protected function isObjectIndexable($object)
     {
         return $this->indexable->isObjectIndexable(
             $this->config['indexName'],
