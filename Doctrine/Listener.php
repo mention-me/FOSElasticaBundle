@@ -28,7 +28,7 @@ class Listener
      *
      * @var array
      */
-    private $config;
+    protected $config;
 
     /**
      * Objects scheduled for insertion.
@@ -61,7 +61,7 @@ class Listener
     /**
      * @var IndexableInterface
      */
-    private $indexable;
+    protected $indexable;
 
     /**
      * Constructor.
@@ -141,7 +141,7 @@ class Listener
      * Persist scheduled objects to ElasticSearch
      * After persisting, clear the scheduled queue to prevent multiple data updates when using multiple flush calls.
      */
-    private function persistScheduled()
+    protected function persistScheduled()
     {
         if (count($this->scheduledForInsertion)) {
             $this->objectPersister->insertMany($this->scheduledForInsertion);
@@ -187,7 +187,7 @@ class Listener
      *
      * @param object $object
      */
-    private function scheduleForDeletion($object)
+    protected function scheduleForDeletion($object)
     {
         if ($identifierValue = $this->propertyAccessor->getValue($object, $this->config['identifier'])) {
             $this->scheduledForDeletion[] = $identifierValue;
@@ -201,7 +201,7 @@ class Listener
      *
      * @return bool
      */
-    private function isObjectIndexable($object)
+    protected function isObjectIndexable($object)
     {
         return $this->indexable->isObjectIndexable(
             $this->config['indexName'],
